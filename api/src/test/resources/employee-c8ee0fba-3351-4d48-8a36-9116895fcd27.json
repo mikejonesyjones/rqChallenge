@@ -1,0 +1,11 @@
+{
+  "data": {
+    "id": "c8ee0fba-3351-4d48-8a36-9116895fcd27",
+    "employee_name": "Walton Stiedemann IV",
+    "employee_salary": 471439,
+    "employee_age": 36,
+    "employee_title": "Human Representative",
+    "employee_email": "cardify@company.com"
+  },
+  "status": "Successfully processed request."
+}

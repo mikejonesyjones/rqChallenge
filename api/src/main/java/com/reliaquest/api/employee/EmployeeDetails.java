@@ -1,20 +1,27 @@
 package com.reliaquest.api.employee;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 public class EmployeeDetails
 {
-    @JsonProperty("employee_name")
     private String name;
 
-    @JsonProperty("employee_salary")
     private Integer salary;
 
-    @JsonProperty("employee_age")
     private Integer age;
 
-    @JsonProperty("employee_title")
     private String title;
+
+    EmployeeDetails(final String name, final Integer salary, final Integer age, final String title)
+    {
+        this.name = name;
+        this.salary = salary;
+        this.age = age;
+        this.title = title;
+    }
+
+    protected EmployeeDetails()
+    {
+
+    }
 
     public String getName()
     {
