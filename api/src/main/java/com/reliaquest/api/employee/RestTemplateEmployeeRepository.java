@@ -59,12 +59,17 @@ public class RestTemplateEmployeeRepository implements EmployeeRepository
     public Employee deleteEmployee(final String id)
     {
         //Hmmmm...the mock server wants their name, but the API accepts their id...
-        final EmployeeIdentifier employeeIdentifier = new EmployeeIdentifier(getEmployee(id).getName());
-        ResponseEntity<ServerResponse<Employee>> response = restTemplate.exchange(baseUrl,
+        final Employee employee = getEmployee(id);
+        final EmployeeIdentifier employeeIdentifier = new EmployeeIdentifier(employee.getName());
+        ResponseEntity<ServerResponse<Boolean>> response = restTemplate.exchange(baseUrl,
                                                                                   HttpMethod.DELETE,
                                                                                   new HttpEntity<>(employeeIdentifier),
                                                                                   new ParameterizedTypeReference<>() {});
-        return Optional.ofNullable(response.getBody()).map(ServerResponse::data).orElse(null);
+        //Dodgy, even if it successfully deleted, nothing to say this was still their representation...
+        return Optional.ofNullable(response.getBody())
+                       .filter(ServerResponse::data)
+                       .map(deleted -> employee)
+                       .orElse(null);
     }
 
     private record EmployeeIdentifier(String name)

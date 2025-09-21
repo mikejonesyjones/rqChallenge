@@ -95,7 +95,10 @@ public class RestTemplateEmployeeRepositoryTest
     public void testDeleteEmployee() throws Exception
     {
         final String id = "c8ee0fba-3351-4d48-8a36-9116895fcd27";
-        final String employeeJson = mockGetEmployee(id);
+        final RestTemplateEmployeeRepository.ServerResponse<Boolean> response =
+                new RestTemplateEmployeeRepository.ServerResponse<>(Boolean.TRUE, "Successfully processed request.", null);
+        final String successJson = writeResponseJson(response);
+        mockGetEmployee(id);
         mockServer.expect(requestTo(baseUrl))
                   .andExpect(method(HttpMethod.DELETE))
                   .andExpect(content().json("""
@@ -103,7 +106,7 @@ public class RestTemplateEmployeeRepositoryTest
                                                         "name": "Walton Stiedemann IV"
                                                     }
                                                     """))
-                  .andRespond(withSuccess(employeeJson, MediaType.APPLICATION_JSON));
+                  .andRespond(withSuccess(successJson, MediaType.APPLICATION_JSON));
 
         final Employee result = employeeRepository.deleteEmployee(id);
         assertThat(result.getId()
@@ -146,20 +149,26 @@ public class RestTemplateEmployeeRepositoryTest
         assertThat(result.getEmail()).isEqualTo(email);
     }
 
-    private String createEmployee(UUID uuid, EmployeeDetails employeeDetails, String email) throws JsonProcessingException
+    private String createEmployee(UUID uuid, EmployeeDetails employeeDetails, String email)
+            throws JsonProcessingException
     {
         final Employee employee = new Employee(uuid, employeeDetails, email);
         final RestTemplateEmployeeRepository.ServerResponse<Employee> response =
                 new RestTemplateEmployeeRepository.ServerResponse<>(employee, "Successfully processed request.", null);
+        return writeResponseJson(response);
+    }
+
+    private String writeResponseJson(RestTemplateEmployeeRepository.ServerResponse<?> response)
+            throws JsonProcessingException
+    {
         return new ObjectMapper().writeValueAsString(response);
     }
 
-    private String mockGetEmployee(String id) throws Exception
+    private void mockGetEmployee(String id) throws Exception
     {
         final String employeeJson = TestUtils.loadJson("employee-" + id + ".json");
         mockServer.expect(requestTo(baseUrl + "/" + id))
                   .andExpect(method(HttpMethod.GET))
                   .andRespond(withSuccess(employeeJson, MediaType.APPLICATION_JSON));
-        return employeeJson;
     }
 }
