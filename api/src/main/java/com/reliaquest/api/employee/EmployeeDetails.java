@@ -42,4 +42,15 @@ public class EmployeeDetails
     {
         return title;
     }
+
+    @Override
+    public String toString()
+    {
+        return "EmployeeDetails{" +
+               "name='" + name + '\'' +
+               ", salary=" + salary +
+               ", age=" + age +
+               ", title='" + title + '\'' +
+               '}';
+    }
 }

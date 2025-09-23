@@ -1,26 +1,26 @@
 package com.reliaquest.api.employee;
 
-import org.springframework.beans.factory.annotation.Value;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Repository;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-@Repository
 public class RestTemplateEmployeeRepository implements EmployeeRepository
 {
+    private static final Logger logger = LoggerFactory.getLogger(RestTemplateEmployeeRepository.class);
+
     private final RestTemplate restTemplate;
 
     private final String baseUrl;
 
-    public RestTemplateEmployeeRepository(final RestTemplate restTemplate,
-                                          @Value("${employee.api.base-url}") final String baseUrl)
+    public RestTemplateEmployeeRepository(final RestTemplate restTemplate, final String baseUrl)
     {
         this.restTemplate = restTemplate;
         this.baseUrl = baseUrl;
@@ -29,6 +29,7 @@ public class RestTemplateEmployeeRepository implements EmployeeRepository
     @Override
     public List<Employee> getAllEmployees()
     {
+        logger.debug("Getting all employees");
         ResponseEntity<ServerResponse<List<Employee>>> response =
                 restTemplate.exchange(baseUrl, HttpMethod.GET, null, new ParameterizedTypeReference<>() {});
         return Optional.ofNullable(response.getBody()).map(ServerResponse::data).orElse(Collections.emptyList());
@@ -37,6 +38,7 @@ public class RestTemplateEmployeeRepository implements EmployeeRepository
     @Override
     public Employee getEmployee(final String id)
     {
+        logger.debug("Getting employee {}", id);
         ResponseEntity<ServerResponse<Employee>> response = restTemplate.exchange(baseUrl + "/{id}",
                                                                                   HttpMethod.GET,
                                                                                   null,
@@ -48,6 +50,7 @@ public class RestTemplateEmployeeRepository implements EmployeeRepository
     @Override
     public Employee createEmployee(final EmployeeDetails employeeDetails)
     {
+        logger.debug("Creating employee {}", employeeDetails);
         ResponseEntity<ServerResponse<Employee>> response = restTemplate.exchange(baseUrl,
                                                                                   HttpMethod.POST,
                                                                                   new HttpEntity<>(employeeDetails),
@@ -58,6 +61,7 @@ public class RestTemplateEmployeeRepository implements EmployeeRepository
     @Override
     public Employee deleteEmployee(final String id)
     {
+        logger.debug("Deleting employee {}", id);
         //Hmmmm...the mock server wants their name, but the API accepts their id...
         final Employee employee = getEmployee(id);
         final EmployeeIdentifier employeeIdentifier = new EmployeeIdentifier(employee.getName());
@@ -74,7 +78,6 @@ public class RestTemplateEmployeeRepository implements EmployeeRepository
 
     private record EmployeeIdentifier(String name)
     {
-
     }
 
     record ServerResponse<T>(T data, String status, String error)
