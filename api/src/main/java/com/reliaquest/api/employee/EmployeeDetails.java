@@ -10,7 +10,7 @@ public class EmployeeDetails
 
     private String title;
 
-    EmployeeDetails(final String name, final Integer salary, final Integer age, final String title)
+    public EmployeeDetails(final String name, final Integer salary, final Integer age, final String title)
     {
         this.name = name;
         this.salary = salary;

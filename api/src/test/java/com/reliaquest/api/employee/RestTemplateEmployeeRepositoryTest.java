@@ -26,7 +26,6 @@ import static org.springframework.test.web.client.response.MockRestResponseCreat
 @SpringBootTest
 public class RestTemplateEmployeeRepositoryTest
 {
-    @Autowired
     private RestTemplateEmployeeRepository employeeRepository;
 
     @Autowired
@@ -40,6 +39,7 @@ public class RestTemplateEmployeeRepositoryTest
     @BeforeEach
     void setup()
     {
+        employeeRepository = new RestTemplateEmployeeRepository(restTemplate, baseUrl);
         mockServer = MockRestServiceServer.createServer(restTemplate);
     }
 
