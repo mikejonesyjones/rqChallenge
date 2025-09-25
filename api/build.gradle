@@ -13,3 +13,7 @@ dependencies {
 springBoot {
     mainClass = 'com.reliaquest.api.ApiApplication'
 }
+
+tasks.named("test", Test) {
+    systemProperty "server.version", project(":server").version.toString()
+}
