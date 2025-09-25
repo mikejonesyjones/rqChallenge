@@ -11,8 +11,7 @@ import org.springframework.retry.support.RetryTemplate;
 import org.springframework.web.client.RestTemplate;
 
 @Configuration
-public class EmployeeConfiguration
-{
+public class EmployeeConfiguration {
     @Value("${employee.api.max-attempts}")
     private int maxAttempts;
 
@@ -23,22 +22,19 @@ public class EmployeeConfiguration
     private String baseUrl;
 
     @Bean
-    public RetryPolicy employeeRetryPolicy()
-    {
+    public RetryPolicy employeeRetryPolicy() {
         return new SimpleRetryPolicy(maxAttempts);
     }
 
     @Bean
-    public BackOffPolicy employeeBackOffPolicy()
-    {
+    public BackOffPolicy employeeBackOffPolicy() {
         final FixedBackOffPolicy fixedBackOffPolicy = new FixedBackOffPolicy();
         fixedBackOffPolicy.setBackOffPeriod(minBackOffPeriod);
         return fixedBackOffPolicy;
     }
 
     @Bean
-    public RetryTemplate employeeRetryTemplate(RetryPolicy retryPolicy, BackOffPolicy backOffPolicy)
-    {
+    public RetryTemplate employeeRetryTemplate(RetryPolicy retryPolicy, BackOffPolicy backOffPolicy) {
         final RetryTemplate retryTemplate = new RetryTemplate();
         retryTemplate.setRetryPolicy(retryPolicy);
         retryTemplate.setBackOffPolicy(backOffPolicy);
@@ -46,8 +42,7 @@ public class EmployeeConfiguration
     }
 
     @Bean
-    public EmployeeRepository employeeRepository(final RetryTemplate retryTemplate, final RestTemplate restTemplate)
-    {
+    public EmployeeRepository employeeRepository(final RetryTemplate retryTemplate, final RestTemplate restTemplate) {
         final EmployeeRepository delegate = new RestTemplateEmployeeRepository(restTemplate, baseUrl);
         return new RetryingEmployeeRepository(delegate, retryTemplate);
     }

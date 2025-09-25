@@ -1,20 +1,18 @@
 package com.reliaquest.api.employee;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
+import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.List;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-
 @ExtendWith(MockitoExtension.class)
-public class EmployeeControllerTest
-{
+public class EmployeeControllerTest {
     @Mock
     private EmployeeService employeeService;
 
@@ -22,8 +20,7 @@ public class EmployeeControllerTest
     private EmployeeController employeeController;
 
     @Test
-    void testGetEmployeeById()
-    {
+    void testGetEmployeeById() {
         String id = "id";
         Employee employee = mock(Employee.class);
         when(employeeService.getEmployee(id)).thenReturn(employee);
@@ -31,41 +28,38 @@ public class EmployeeControllerTest
     }
 
     @Test
-    void testGetAllEmployees()
-    {
+    void testGetAllEmployees() {
         List<Employee> allEmployees = List.of(mock(Employee.class), mock(Employee.class));
         when(employeeService.getAllEmployees()).thenReturn(allEmployees);
         assertThat(employeeController.getAllEmployees().getBody()).isEqualTo(allEmployees);
     }
 
     @Test
-    void testGetEmployeesByNameSearch()
-    {
+    void testGetEmployeesByNameSearch() {
         String search = "search";
         List<Employee> allEmployees = List.of(mock(Employee.class), mock(Employee.class));
         when(employeeService.getEmployeesByNameSearch(search)).thenReturn(allEmployees);
-        assertThat(employeeController.getEmployeesByNameSearch(search).getBody()).isEqualTo(allEmployees);
+        assertThat(employeeController.getEmployeesByNameSearch(search).getBody())
+                .isEqualTo(allEmployees);
     }
 
     @Test
-    void testGetHighestSalaryOfEmployees()
-    {
+    void testGetHighestSalaryOfEmployees() {
         Integer highestSalary = 10000;
         when(employeeService.getHighestSalaryOfEmployees()).thenReturn(highestSalary);
         assertThat(employeeController.getHighestSalaryOfEmployees().getBody()).isEqualTo(highestSalary);
     }
 
     @Test
-    void testGetTopTenHighestEarningEmployeeNames()
-    {
+    void testGetTopTenHighestEarningEmployeeNames() {
         List<String> names = List.of("Michael Jones", "Mr Jones");
         when(employeeService.getTopTenHighestEarningEmployeeNames()).thenReturn(names);
-        assertThat(employeeController.getTopTenHighestEarningEmployeeNames().getBody()).isEqualTo(names);
+        assertThat(employeeController.getTopTenHighestEarningEmployeeNames().getBody())
+                .isEqualTo(names);
     }
 
     @Test
-    void testCreateEmployee()
-    {
+    void testCreateEmployee() {
         EmployeeDetails employeeDetails = mock(EmployeeDetails.class);
         Employee employee = mock(Employee.class);
         when(employeeService.createEmployee(employeeDetails)).thenReturn(employee);
@@ -73,8 +67,7 @@ public class EmployeeControllerTest
     }
 
     @Test
-    void testDeleteEmployeeById()
-    {
+    void testDeleteEmployeeById() {
         String id = "id";
         Employee employee = mock(Employee.class);
         String name = "name";

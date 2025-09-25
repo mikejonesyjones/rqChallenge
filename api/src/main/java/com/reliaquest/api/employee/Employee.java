@@ -1,63 +1,51 @@
 package com.reliaquest.api.employee;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.util.UUID;
 
-public class Employee extends EmployeeDetails
-{
+public class Employee extends EmployeeDetails {
     private UUID id;
 
     @JsonProperty("employee_email")
     private String email;
 
-    Employee(UUID uuid, EmployeeDetails details, String email)
-    {
+    Employee(UUID uuid, EmployeeDetails details, String email) {
         super(details.getName(), details.getSalary(), details.getAge(), details.getTitle());
         this.id = uuid;
         this.email = email;
     }
 
-    protected Employee()
-    {
+    protected Employee() {}
 
-    }
-
-    public UUID getId()
-    {
+    public UUID getId() {
         return id;
     }
 
-    public String getEmail()
-    {
+    public String getEmail() {
         return email;
     }
 
     @Override
     @JsonProperty("employee_name")
-    public String getName()
-    {
+    public String getName() {
         return super.getName();
     }
 
     @Override
     @JsonProperty("employee_salary")
-    public Integer getSalary()
-    {
+    public Integer getSalary() {
         return super.getSalary();
     }
 
     @Override
     @JsonProperty("employee_age")
-    public Integer getAge()
-    {
+    public Integer getAge() {
         return super.getAge();
     }
 
     @Override
     @JsonProperty("employee_title")
-    public String getTitle()
-    {
+    public String getTitle() {
         return super.getTitle();
     }
 }

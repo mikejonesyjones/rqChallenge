@@ -1,7 +1,6 @@
 package com.reliaquest.api.employee;
 
-public class EmployeeDetails
-{
+public class EmployeeDetails {
     private String name;
 
     private Integer salary;
@@ -10,47 +9,37 @@ public class EmployeeDetails
 
     private String title;
 
-    public EmployeeDetails(final String name, final Integer salary, final Integer age, final String title)
-    {
+    public EmployeeDetails(final String name, final Integer salary, final Integer age, final String title) {
         this.name = name;
         this.salary = salary;
         this.age = age;
         this.title = title;
     }
 
-    protected EmployeeDetails()
-    {
+    protected EmployeeDetails() {}
 
-    }
-
-    public String getName()
-    {
+    public String getName() {
         return name;
     }
 
-    public Integer getSalary()
-    {
+    public Integer getSalary() {
         return salary;
     }
 
-    public Integer getAge()
-    {
+    public Integer getAge() {
         return age;
     }
 
-    public String getTitle()
-    {
+    public String getTitle() {
         return title;
     }
 
     @Override
-    public String toString()
-    {
-        return "EmployeeDetails{" +
-               "name='" + name + '\'' +
-               ", salary=" + salary +
-               ", age=" + age +
-               ", title='" + title + '\'' +
-               '}';
+    public String toString() {
+        return "EmployeeDetails{" + "name='"
+                + name + '\'' + ", salary="
+                + salary + ", age="
+                + age + ", title='"
+                + title + '\'' + '}';
     }
 }

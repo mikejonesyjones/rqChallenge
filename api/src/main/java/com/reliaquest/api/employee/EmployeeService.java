@@ -2,8 +2,7 @@ package com.reliaquest.api.employee;
 
 import java.util.List;
 
-public interface EmployeeService
-{
+public interface EmployeeService {
     List<Employee> getAllEmployees();
 
     List<Employee> getEmployeesByNameSearch(String searchString);
